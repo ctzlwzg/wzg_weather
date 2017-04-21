@@ -3,7 +3,7 @@
     <version value="1"/>
 
     <list>
-        <mapping class="com.wzg.lenovo.wzg_weather.db.Privince"/>
+        <mapping class="com.wzg.lenovo.wzg_weather.db.Province"/>
         <mapping class="com.wzg.lenovo.wzg_weather.db.City"/>
         <mapping class="com.wzg.lenovo.wzg_weather.db.County"/>
 
