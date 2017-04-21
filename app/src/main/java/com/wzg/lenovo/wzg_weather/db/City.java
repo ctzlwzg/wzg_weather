@@ -1,4 +1,4 @@
-package com.wzg.lenovo.wzg_weather;
+package com.wzg.lenovo.wzg_weather.db;
 
 import org.litepal.crud.DataSupport;
 
@@ -11,6 +11,16 @@ public class City extends DataSupport{
     private int id;
     private String cityName;
     private int cityCode;
+    private int provinedId;
+
+    public void setProvinedId(int provinedId) {
+        this.provinedId = provinedId;
+    }
+
+    public int getProvinedId() {
+
+        return provinedId;
+    }
 
     public int getId() {
         return id;

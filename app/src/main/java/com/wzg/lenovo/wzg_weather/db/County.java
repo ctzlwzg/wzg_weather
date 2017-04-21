@@ -1,4 +1,4 @@
-package com.wzg.lenovo.wzg_weather;
+package com.wzg.lenovo.wzg_weather.db;
 
 import org.litepal.crud.DataSupport;
 
@@ -10,7 +10,26 @@ import org.litepal.crud.DataSupport;
 public class County extends DataSupport{
     private int id;
     private String countyName;
-    private int countyCode;
+    private String weatherId;
+
+    public void setWeatherId(String weatherId) {
+        this.weatherId = weatherId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getWeatherId() {
+
+        return weatherId;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    private int cityId;
 
     public int getId() {
         return id;
@@ -20,9 +39,7 @@ public class County extends DataSupport{
         return countyName;
     }
 
-    public int getCountyCode() {
-        return countyCode;
-    }
+
 
     public void setId(int id) {
         this.id = id;
@@ -32,7 +49,5 @@ public class County extends DataSupport{
         this.countyName = countyName;
     }
 
-    public void setCountyCode(int countyCode) {
-        this.countyCode = countyCode;
-    }
+
 }

@@ -1,4 +1,4 @@
-package com.wzg.lenovo.wzg_weather;
+package com.wzg.lenovo.wzg_weather.db;
 
 import org.litepal.crud.DataSupport;
 
