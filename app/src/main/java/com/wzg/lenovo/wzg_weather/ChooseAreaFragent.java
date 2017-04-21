@@ -3,6 +3,7 @@ package com.wzg.lenovo.wzg_weather;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -108,6 +109,12 @@ public class ChooseAreaFragent extends Fragment{
                 }else if(currentedLevel==LEVEL_CITY){
                     selectedCity=cityList.get(i);
                     queryConties();
+                }else if(currentedLevel==LEVEL_COUNTY){
+                    String weatherId=countyList.get(i).getWeatherId();
+                    Intent intent=new Intent(getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
