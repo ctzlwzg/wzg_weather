@@ -1,13 +1,14 @@
 package com.wzg.lenovo.wzg_weather;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
+//import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ import com.wzg.lenovo.wzg_weather.util.Utility;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +121,7 @@ public class ChooseAreaFragent extends Fragment{
                         activity.drawerLayout.closeDrawers();
                         activity.swipeRefreshLayout.setRefreshing(true);
                         activity.requestWeather(weatherId);
+
                     }
 
                 }
@@ -265,6 +266,7 @@ public class ChooseAreaFragent extends Fragment{
         if(progressDialog==null){
             progressDialog=new ProgressDialog(getActivity());
             progressDialog.setMessage("正在加载...");
+            progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.show();
     }

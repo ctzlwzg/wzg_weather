@@ -40,6 +40,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView degreeText;
     private TextView weatherInfoText;
     private LinearLayout forecastLayout;
+    private TextView qltyText;
     private TextView aqiText;
     private TextView pm25Text;
     private TextView comfortText;
@@ -70,6 +71,7 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText=(TextView)findViewById(R.id.degree_text);
         weatherInfoText=(TextView)findViewById(R.id.weather_info_text);
         forecastLayout=(LinearLayout)findViewById(R.id.forecast_layout);
+        qltyText=(TextView)findViewById(R.id.aqi_qlty);
         aqiText=(TextView)findViewById(R.id.aqi_text);
         pm25Text=(TextView)findViewById(R.id.pm25_text);
         comfortText=(TextView)findViewById(R.id.comfort_text);
@@ -88,10 +90,6 @@ public class WeatherActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
-
-
-
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString=prefs.getString("weather",null);
         if(weatherString!=null){
@@ -157,6 +155,7 @@ public class WeatherActivity extends AppCompatActivity {
     * 根据天气id请求城市天气信息
     * */
     public void requestWeather(final String weatherId){
+        mWeatherId=weatherId;
 
         String weatherUrl="http://guolin.tech/api/weather?cityid="+weatherId+"&key=beca3349980c4ad097412de4971f49d5";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
@@ -195,6 +194,10 @@ public class WeatherActivity extends AppCompatActivity {
             }
 
         });
+
+        loadBingPic();
+
+
     }
 
 
@@ -203,7 +206,7 @@ public class WeatherActivity extends AppCompatActivity {
     * */
     private void showWeatherInfo(Weather weather){
         String cityName=weather.basic.cityName;
-        String updateTime=weather.basic.update.updateTime.split(" ")[1];
+        String updateTime=weather.basic.update.updateTime.split(" ")[1];//以空格为标准拆分字符串，1代表第二个数组，
         String degree=weather.now.temperature+"℃";
         String weatherInfo=weather.now.more.info;
         titleCity.setText(cityName);
@@ -219,18 +222,19 @@ public class WeatherActivity extends AppCompatActivity {
             TextView minText=(TextView)view.findViewById(R.id.min_text);
             dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
-            maxText.setText(forecast.temperature.max);
-            minText.setText(forecast.temperature.min);
+            maxText.setText(forecast.temperature.max+"℃");
+            minText.setText(forecast.temperature.min+"℃");
             forecastLayout.addView(view);
 
         }
         if(weather.aqi!=null){
+            qltyText.setText(weather.aqi.city.qlty);
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
-        String comfore="舒适度:"+weather.suggestion.comfort.info;
-        String carWash="洗车指数:"+weather.suggestion.carWash.info;
-        String sport="运动指数:"+weather.suggestion.sport.info;
+        String comfore="舒适度:   "+weather.suggestion.comfort.info;
+        String carWash="洗车指数:   "+weather.suggestion.carWash.info;
+        String sport="运动指数:   "+weather.suggestion.sport.info;
         comfortText.setText(comfore);
         carWashText.setText(carWash);
         sportText.setText(sport);
