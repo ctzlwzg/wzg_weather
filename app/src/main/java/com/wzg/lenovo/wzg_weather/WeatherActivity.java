@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wzg.lenovo.wzg_weather.gosn.Forecast;
+import com.wzg.lenovo.wzg_weather.gosn.HourlyForecast;
 import com.wzg.lenovo.wzg_weather.gosn.Weather;
 import com.wzg.lenovo.wzg_weather.util.HttpUtil;
 import com.wzg.lenovo.wzg_weather.util.Utility;
@@ -40,12 +41,15 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView degreeText;
     private TextView weatherInfoText;
     private LinearLayout forecastLayout;
+    private LinearLayout hourlyForecastLayout;
     private TextView qltyText;
     private TextView aqiText;
     private TextView pm25Text;
     private TextView comfortText;
     private TextView carWashText;
+    private TextView uvText;
     private TextView sportText;
+    private TextView drsgText;
     private ImageView bingPicImg;
 
     public SwipeRefreshLayout swipeRefreshLayout;
@@ -71,12 +75,15 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText=(TextView)findViewById(R.id.degree_text);
         weatherInfoText=(TextView)findViewById(R.id.weather_info_text);
         forecastLayout=(LinearLayout)findViewById(R.id.forecast_layout);
+        hourlyForecastLayout=(LinearLayout)findViewById(R.id.hourly_forecast_layout);
         qltyText=(TextView)findViewById(R.id.aqi_qlty);
         aqiText=(TextView)findViewById(R.id.aqi_text);
         pm25Text=(TextView)findViewById(R.id.pm25_text);
         comfortText=(TextView)findViewById(R.id.comfort_text);
         carWashText=(TextView)findViewById(R.id.car_wash_text);
         sportText=(TextView)findViewById(R.id.sport_text);
+        uvText=(TextView)findViewById(R.id.uv_text);
+        drsgText=(TextView)findViewById(R.id.drsg_text);
         bingPicImg=(ImageView)findViewById(R.id.bing_pic_img);
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -214,6 +221,8 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
+        hourlyForecastLayout.removeAllViews();
+        //加载未来三天的天气
         for(Forecast forecast:weather.forecastList){
             View view= LayoutInflater.from(this).inflate(R.layout.forecast_item,forecastLayout,false);
             TextView dateText=(TextView)view.findViewById(R.id.date_text);
@@ -227,6 +236,20 @@ public class WeatherActivity extends AppCompatActivity {
             forecastLayout.addView(view);
 
         }
+        //加载未来三小时的天气
+        for(HourlyForecast hourlyForecast:weather.hourlyForecastList){
+
+            View view=LayoutInflater.from(this).inflate(R.layout.hourly_forecast_item,hourlyForecastLayout,false);
+            TextView dateeText=(TextView)view.findViewById(R.id.date_day_text);
+            TextView weatherConditionsText=(TextView)view.findViewById(R.id.weather_conditions_text);
+            TextView precipitationProbabilityText=(TextView)view.findViewById(R.id.precipitation_probability_text);
+            String hourly=hourlyForecast.date.split(" ")[1];
+            dateeText.setText(hourly);
+            weatherConditionsText.setText(hourlyForecast.more.info);
+            precipitationProbabilityText.setText(hourlyForecast.tmp+"%");
+            hourlyForecastLayout.addView(view);
+        }
+
         if(weather.aqi!=null){
             qltyText.setText(weather.aqi.city.qlty);
             aqiText.setText(weather.aqi.city.aqi);
@@ -235,9 +258,13 @@ public class WeatherActivity extends AppCompatActivity {
         String comfore="舒适度:   "+weather.suggestion.comfort.info;
         String carWash="洗车指数:   "+weather.suggestion.carWash.info;
         String sport="运动指数:   "+weather.suggestion.sport.info;
+        String uv="紫外线指数:   "+weather.suggestion.uv.info;
+        String drsg="穿衣指数:   "+weather.suggestion.drsg.info;
         comfortText.setText(comfore);
         carWashText.setText(carWash);
         sportText.setText(sport);
+        uvText.setText(uv);
+        drsgText.setText(drsg);
         weatherLayout.setVisibility(View.VISIBLE);
     }
 }

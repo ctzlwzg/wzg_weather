@@ -15,6 +15,12 @@ public class Weather {
     public Now now;
     public Suggestion suggestion;
 
+
+    //日天气数组
     @SerializedName("daily_forecast")
     public List<Forecast>forecastList;
+
+    //小时天气数组
+    @SerializedName("hourly_forecast")
+    public List<HourlyForecast>hourlyForecastList;
 }
